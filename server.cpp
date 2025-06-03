@@ -1,8 +1,8 @@
-#include <iostream>
 #include <cstring>
-#include <unistd.h>
-#include <sys/socket.h>
+#include <iostream>
 #include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 int main(void) {
   // Создание сокета
@@ -21,12 +21,8 @@ int main(void) {
   server_address.sin_addr.s_addr = INADDR_ANY;
 
   // 3. Привязка сокета к адресу
-
-  // bind - привязка сокета к адресу
-  // server_socket - дескриптор сокета
-  // (sockaddr *) - приведение типа к указателю на структуру sockaddr (обобщенная структура для представления адресов)
-  // &server_address - взятие адреса структуры с конфигурацией сервера
-  if (bind(server_socket, (sockaddr *)&server_address, sizeof(server_address))) {
+  if (bind(server_socket, (sockaddr *)&server_address,
+           sizeof(server_address))) {
     std::cerr << "[!] Error binding socket." << std::endl;
     return 1;
   }
@@ -38,8 +34,8 @@ int main(void) {
   // 5. Принятие подключения
   sockaddr_in client_address;
   socklen_t client_addr_size = sizeof(client_address);
-  // accept - принимает новое подключение
-  int client_socket = accept(server_socket, (sockaddr *)&client_address, &client_addr_size);
+  int client_socket =
+      accept(server_socket, (sockaddr *)&client_address, &client_addr_size);
   std::cout << "[*] Client connected." << std::endl;
 
   // 6. Обмен данными
